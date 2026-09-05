@@ -1,127 +1,1222 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Azali | Technical Support</title>
 
   <style>
+    :root {
+      --bg: #080b12;
+      --card: rgba(17, 24, 39, 0.78);
+      --card-solid: #111827;
+      --border: rgba(148, 163, 184, 0.15);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --terminal: #05070b;
+      --shadow: rgba(0, 0, 0, 0.45);
+    }
+
+    .light {
+      --bg: #f1f5f9;
+      --card: rgba(255, 255, 255, 0.82);
+      --card-solid: #ffffff;
+      --border: rgba(15, 23, 42, 0.12);
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0284c7;
+      --accent-2: #4f46e5;
+      --terminal: #111827;
+      --shadow: rgba(15, 23, 42, 0.15);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #0f172a;
-      color: #e2e8f0;
-      font-family: Arial, Helvetica, sans-serif;
+    html {
+      scroll-behavior: smooth;
     }
 
-    .profile-card {
-      width: 90%;
-      max-width: 420px;
-      padding: 40px 32px;
-      text-align: center;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* ---------------- BACKGROUND ---------------- */
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.12), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(129, 140, 248, 0.12), transparent 30%);
+    }
+
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .orb.one {
+      width: 250px;
+      height: 250px;
+      background: rgba(56, 189, 248, 0.12);
+      top: 10%;
+      left: -100px;
+    }
+
+    .orb.two {
+      width: 300px;
+      height: 300px;
+      background: rgba(129, 140, 248, 0.12);
+      right: -100px;
+      bottom: 5%;
+      animation-delay: -4s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(40px, -30px);
+      }
+    }
+
+    /* ---------------- NAVBAR ---------------- */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1100px, 92%);
+      margin-top: 20px;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .theme-btn {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 17px;
+      transition: 0.3s;
+    }
+
+    .theme-btn:hover {
+      transform: rotate(20deg);
+      border-color: var(--accent);
+    }
+
+    /* ---------------- MAIN ---------------- */
+
+    main {
+      width: min(1100px, 92%);
+      margin: auto;
+      padding-top: 130px;
+    }
+
+    section {
+      margin-bottom: 100px;
+    }
+
+    /* ---------------- HERO ---------------- */
+
+    .hero {
+      min-height: 75vh;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 30px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      color: var(--accent);
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      50% {
+        opacity: 0.3;
+        transform: scale(0.7);
+      }
+    }
+
+    h1 {
+      font-size: clamp(48px, 8vw, 82px);
+      line-height: 0.95;
+      letter-spacing: -4px;
+      margin-bottom: 20px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .typing {
+      font-size: 22px;
+      color: var(--muted);
+      min-height: 32px;
+      margin-bottom: 25px;
+    }
+
+    .cursor {
+      color: var(--accent);
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .hero-description {
+      max-width: 650px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: #06111a;
+      background: var(--accent);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(56,189,248,0.2);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* ---------------- PROFILE ---------------- */
+
+    .profile-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile {
+      width: 300px;
+      height: 380px;
+      position: relative;
+      padding: 30px;
+      border-radius: 25px;
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 80px var(--shadow);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease;
+    }
+
+    .profile::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: 25px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--accent), transparent, var(--accent-2));
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
     }
 
     .avatar {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 20px;
+      width: 110px;
+      height: 110px;
+      margin: 15px auto 25px;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      background: #38bdf8;
-      color: #0f172a;
-      font-size: 32px;
+      font-size: 42px;
       font-weight: bold;
+      color: #071018;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 50px rgba(56,189,248,0.2);
     }
 
-    h1 {
+    .profile h2 {
+      text-align: center;
+      margin-bottom: 7px;
+    }
+
+    .profile-role {
+      text-align: center;
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .profile-info {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .profile-info span:first-child {
+      color: var(--muted);
+    }
+
+    .clock {
+      font-family: monospace;
+      color: var(--accent);
+    }
+
+    /* ---------------- SECTION TITLE ---------------- */
+
+    .section-title {
+      margin-bottom: 35px;
+    }
+
+    .section-title span {
+      color: var(--accent);
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    .section-title h2 {
+      font-size: 36px;
+      margin-top: 8px;
+    }
+
+    /* ---------------- SKILLS ---------------- */
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .skill-card {
+      position: relative;
+      padding: 25px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+      transition: 0.35s;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .skill-card::after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      right: -50px;
+      bottom: -50px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.06;
+      transition: 0.4s;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(56,189,248,0.35);
+      box-shadow: 0 20px 40px var(--shadow);
+    }
+
+    .skill-card:hover::after {
+      transform: scale(2.5);
+    }
+
+    .skill-icon {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .skill-card h3 {
       margin-bottom: 8px;
-      font-size: 32px;
-      text-transform: capitalize;
     }
 
-    .role {
-      margin-bottom: 25px;
-      color: #38bdf8;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .about {
-      margin-bottom: 25px;
-      color: #94a3b8;
+    .skill-card p {
+      color: var(--muted);
+      font-size: 14px;
       line-height: 1.6;
     }
 
-    .skills {
+    .skill-level {
+      height: 4px;
+      background: rgba(148,163,184,0.12);
+      border-radius: 10px;
+      margin-top: 18px;
+      overflow: hidden;
+    }
+
+    .skill-level div {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 10px;
+      transition: width 1.5s ease;
+    }
+
+    /* ---------------- TERMINAL ---------------- */
+
+    .terminal {
+      background: var(--terminal);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 25px 60px var(--shadow);
+    }
+
+    .terminal-header {
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 25px;
+      align-items: center;
+      gap: 7px;
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
-    .skill {
-      padding: 8px 16px;
-      border-radius: 20px;
-      background: #0f172a;
-      border: 1px solid #475569;
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #64748b;
+    }
+
+    .terminal-title {
+      margin-left: 8px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .terminal-body {
+      padding: 25px;
+      min-height: 240px;
       color: #cbd5e1;
+      font-family: monospace;
       font-size: 14px;
+      line-height: 1.8;
     }
 
-    .fun-fact {
-      padding: 15px;
-      border-radius: 12px;
-      background: #172033;
-      color: #cbd5e1;
-      font-size: 14px;
-    }
-
-    .fun-fact span {
-      display: block;
-      margin-bottom: 5px;
+    .prompt {
       color: #38bdf8;
-      font-weight: bold;
+    }
+
+    .command {
+      color: #a5b4fc;
+    }
+
+    .terminal-input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #fff;
+      font-family: monospace;
+      width: 70%;
+      font-size: 14px;
+    }
+
+    /* ---------------- FUN FACT ---------------- */
+
+    .fun-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .fun-card {
+      padding: 35px;
+      border-radius: 20px;
+      background: linear-gradient(
+        135deg,
+        rgba(56,189,248,0.08),
+        rgba(129,140,248,0.08)
+      );
+      border: 1px solid var(--border);
+    }
+
+    .fun-card .emoji {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    .fun-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .fun-card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+
+    footer {
+      text-align: center;
+      padding: 30px 0 50px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer span {
+      color: var(--accent);
+    }
+
+    /* ---------------- RESPONSIVE ---------------- */
+
+    @media (max-width: 800px) {
+
+      .nav-links a {
+        display: none;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 50px;
+      }
+
+      .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .buttons {
+        justify-content: center;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .fun-section {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-wrapper {
+        order: -1;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main class="profile-card">
-    <div class="avatar">A</div>
 
-    <h1>azali</h1>
-    <p class="role">Technical Support</p>
+  <!-- BACKGROUND -->
+  <div class="background">
+    <div class="grid"></div>
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+  </div>
 
-    <p class="about">
-      Technical Support yang sentiasa berminat untuk meneroka
-      teknologi dan meningkatkan kemahiran dalam bidang IT.
-    </p>
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="logo">&lt;azali /&gt;</div>
 
-    <div class="skills">
-      <span class="skill">Linux</span>
-      <span class="skill">Git</span>
-      <span class="skill">Docker</span>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#terminal">Terminal</a>
     </div>
 
-    <div class="fun-fact">
-      <span>💡 Fakta Menarik</span>
-      Suka belajar benda baru
-    </div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+      ☀
+    </button>
+  </nav>
+
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="about">
+
+      <div>
+
+        <div class="status">
+          <span class="status-dot"></span>
+          Always learning
+        </div>
+
+        <h1>
+          Hi, I'm <br>
+          <span class="gradient-text">Azali.</span>
+        </h1>
+
+        <div class="typing">
+          <span id="typingText"></span>
+          <span class="cursor">|</span>
+        </div>
+
+        <p class="hero-description">
+          Technical Support enthusiast who enjoys solving problems,
+          exploring technology and learning something new every day.
+        </p>
+
+        <div class="buttons">
+          <a href="#skills" class="btn btn-primary">
+            Explore My Skills →
+          </a>
+
+          <a href="#terminal" class="btn btn-secondary">
+            Open Terminal
+          </a>
+        </div>
+
+      </div>
+
+
+      <!-- PROFILE CARD -->
+      <div class="profile-wrapper">
+
+        <div class="profile" id="profileCard">
+
+          <div class="avatar">
+            A
+          </div>
+
+          <h2>azali</h2>
+
+          <p class="profile-role">
+            Technical Support
+          </p>
+
+          <div class="profile-info">
+            <span>Location</span>
+            <span>Malaysia 🇲🇾</span>
+          </div>
+
+          <div class="profile-info">
+            <span>Focus</span>
+            <span>IT & Support</span>
+          </div>
+
+          <div class="profile-info">
+            <span>Current Time</span>
+            <span class="clock" id="clock">00:00:00</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SKILLS -->
+    <section id="skills">
+
+      <div class="section-title">
+        <span>01 — TECHNOLOGY</span>
+        <h2>Things I Work With</h2>
+      </div>
+
+      <div class="skills-grid">
+
+        <div class="skill-card">
+          <div class="skill-icon">🐧</div>
+
+          <h3>Linux</h3>
+
+          <p>
+            Working with Linux environments, commands,
+            troubleshooting and system administration.
+          </p>
+
+          <div class="skill-level">
+            <div data-level="80"></div>
+          </div>
+        </div>
+
+
+        <div class="skill-card">
+          <div class="skill-icon">🔀</div>
+
+          <h3>Git</h3>
+
+          <p>
+            Learning version control, repositories,
+            branching and collaborative development workflows.
+          </p>
+
+          <div class="skill-level">
+            <div data-level="65"></div>
+          </div>
+        </div>
+
+
+        <div class="skill-card">
+          <div class="skill-icon">🐳</div>
+
+          <h3>Docker</h3>
+
+          <p>
+            Exploring containers, images, deployments
+            and modern application environments.
+          </p>
+
+          <div class="skill-level">
+            <div data-level="60"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- TERMINAL -->
+    <section id="terminal">
+
+      <div class="section-title">
+        <span>02 — INTERACTIVE</span>
+        <h2>Ask My Terminal</h2>
+      </div>
+
+      <div class="terminal">
+
+        <div class="terminal-header">
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+          <span class="terminal-dot"></span>
+
+          <span class="terminal-title">
+            azali@portfolio: ~
+          </span>
+        </div>
+
+        <div class="terminal-body" id="terminalBody">
+
+          <div>
+            <span class="prompt">azali@portfolio:~$</span>
+            <span class="command">whoami</span>
+          </div>
+
+          <div>
+            Technical Support | Problem Solver | Lifelong Learner
+          </div>
+
+          <br>
+
+          <div>
+            <span class="prompt">azali@portfolio:~$</span>
+            <span class="command">skills</span>
+          </div>
+
+          <div>
+            Linux • Git • Docker
+          </div>
+
+          <br>
+
+          <div>
+            <span class="prompt">azali@portfolio:~$</span>
+            <span class="command">motivation</span>
+          </div>
+
+          <div>
+            "Suka belajar benda baru 🚀"
+          </div>
+
+          <br>
+
+          <div>
+            <span class="prompt">azali@portfolio:~$</span>
+            <input
+              class="terminal-input"
+              id="terminalInput"
+              placeholder="try: help"
+              autocomplete="off"
+            >
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- FUN FACT -->
+    <section>
+
+      <div class="section-title">
+        <span>03 — ABOUT ME</span>
+        <h2>A Little More About Me</h2>
+      </div>
+
+      <div class="fun-section">
+
+        <div class="fun-card">
+
+          <div class="emoji">🧠</div>
+
+          <h3>Always Curious</h3>
+
+          <p>
+            I enjoy discovering how things work and experimenting
+            with new technologies. For me, every problem is another
+            opportunity to learn something new.
+          </p>
+
+        </div>
+
+
+        <div class="fun-card">
+
+          <div class="emoji">🚀</div>
+
+          <h3>Keep Learning</h3>
+
+          <p>
+            My current interests include Linux, Git and Docker,
+            while continuously expanding my technical knowledge
+            through hands-on practice.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    Built with curiosity & <span>code</span> · © 2026 Azali
+  </footer>
+
+
+  <script>
+
+    /* ---------------- TYPING EFFECT ---------------- */
+
+    const words = [
+      "Technical Support",
+      "Problem Solver",
+      "Linux Enthusiast",
+      "Learning Git",
+      "Exploring Docker"
+    ];
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function typeEffect() {
+
+      const element = document.getElementById("typingText");
+      const word = words[wordIndex];
+
+      if (!deleting) {
+
+        element.textContent = word.substring(0, charIndex + 1);
+        charIndex++;
+
+        if (charIndex === word.length) {
+          deleting = true;
+
+          setTimeout(typeEffect, 1500);
+          return;
+        }
+
+      } else {
+
+        element.textContent = word.substring(0, charIndex - 1);
+        charIndex--;
+
+        if (charIndex === 0) {
+          deleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+        }
+      }
+
+      setTimeout(typeEffect, deleting ? 50 : 90);
+    }
+
+    typeEffect();
+
+
+    /* ---------------- LIVE CLOCK ---------------- */
+
+    function updateClock() {
+
+      const now = new Date();
+
+      const time = now.toLocaleTimeString("en-MY", {
+        hour12: false
+      });
+
+      document.getElementById("clock").textContent = time;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+
+    /* ---------------- THEME ---------------- */
+
+    function toggleTheme() {
+
+      document.body.classList.toggle("light");
+
+      const button = document.getElementById("themeBtn");
+
+      if (document.body.classList.contains("light")) {
+        button.textContent = "🌙";
+      } else {
+        button.textContent = "☀";
+      }
+    }
+
+
+    /* ---------------- PROFILE 3D EFFECT ---------------- */
+
+    const card = document.getElementById("profileCard");
+
+    card.addEventListener("mousemove", (e) => {
+
+      const rect = card.getBoundingClientRect();
+
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const rotateX =
+        ((y / rect.height) - 0.5) * -12;
+
+      const rotateY =
+        ((x / rect.width) - 0.5) * 12;
+
+      card.style.transform =
+        `perspective(800px)
+         rotateX(${rotateX}deg)
+         rotateY(${rotateY}deg)
+         scale(1.02)`;
+    });
+
+
+    card.addEventListener("mouseleave", () => {
+
+      card.style.transform =
+        "perspective(800px) rotateX(0) rotateY(0) scale(1)";
+    });
+
+
+    /* ---------------- SKILL ANIMATION ---------------- */
+
+    const skillBars =
+      document.querySelectorAll(".skill-level div");
+
+    const observer = new IntersectionObserver(
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            const level =
+              entry.target.dataset.level;
+
+            entry.target.style.width =
+              level + "%";
+          }
+
+        });
+
+      },
+      { threshold: 0.5 }
+    );
+
+
+    skillBars.forEach(bar => {
+      observer.observe(bar);
+    });
+
+
+    /* ---------------- TERMINAL ---------------- */
+
+    const terminalInput =
+      document.getElementById("terminalInput");
+
+    const terminalBody =
+      document.getElementById("terminalBody");
+
+
+    terminalInput.addEventListener("keydown", (event) => {
+
+      if (event.key !== "Enter") return;
+
+      const command =
+        terminalInput.value
+          .trim()
+          .toLowerCase();
+
+      let response = "";
+
+      switch (command) {
+
+        case "help":
+          response =
+            "Available commands: whoami, skills, about, clear, date";
+          break;
+
+        case "whoami":
+          response =
+            "Azali — Technical Support enthusiast.";
+          break;
+
+        case "skills":
+          response =
+            "Linux • Git • Docker";
+          break;
+
+        case "about":
+          response =
+            "Suka belajar benda baru 🚀";
+          break;
+
+        case "date":
+          response =
+            new Date().toString();
+          break;
+
+        case "clear":
+          terminalBody.innerHTML = `
+            <div>
+              <span class="prompt">
+                azali@portfolio:~$
+              </span>
+              <input
+                class="terminal-input"
+                id="terminalInput"
+                placeholder="try: help"
+                autocomplete="off"
+              >
+            </div>
+          `;
+
+          setupTerminal();
+          return;
+
+        case "":
+          response = "";
+          break;
+
+        default:
+          response =
+            `Command not found: ${command}. Try "help".`;
+      }
+
+      const commandLine =
+        document.createElement("div");
+
+      commandLine.innerHTML = `
+        <span class="prompt">
+          azali@portfolio:~$
+        </span>
+        ${command}
+      `;
+
+      const output =
+        document.createElement("div");
+
+      output.textContent = response;
+
+      terminalBody.insertBefore(
+        commandLine,
+        terminalInput.parentElement
+      );
+
+      terminalBody.insertBefore(
+        output,
+        terminalInput.parentElement
+      );
+
+      terminalInput.value = "";
+
+      terminalBody.scrollTop =
+        terminalBody.scrollHeight;
+    });
+
+
+    function setupTerminal() {
+
+      const input =
+        document.getElementById("terminalInput");
+
+      input.focus();
+
+      input.addEventListener("keydown", (event) => {
+
+        if (event.key === "Enter") {
+
+          const command =
+            input.value.trim().toLowerCase();
+
+          let response = "";
+
+          if (command === "help") {
+            response =
+              "Available commands: whoami, skills, about, clear, date";
+          } else if (command === "whoami") {
+            response =
+              "Azali — Technical Support enthusiast.";
+          } else if (command === "skills") {
+            response =
+              "Linux • Git • Docker";
+          } else if (command === "about") {
+            response =
+              "Suka belajar benda baru 🚀";
+          } else if (command === "date") {
+            response = new Date().toString();
+          } else {
+            response =
+              `Command not found: ${command}. Try "help".`;
+          }
+
+          const line =
+            document.createElement("div");
+
+          line.innerHTML = `
+            <span class="prompt">
+              azali@portfolio:~$
+            </span>
+            ${command}
+          `;
+
+          const output =
+            document.createElement("div");
+
+          output.textContent = response;
+
+          terminalBody.insertBefore(
+            line,
+            input.parentElement
+          );
+
+          terminalBody.insertBefore(
+            output,
+            input.parentElement
+          );
+
+          input.value = "";
+        }
+      });
+    }
+
+  </script>
+
 </body>
 </html>
